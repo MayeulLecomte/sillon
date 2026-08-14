@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sillon — conseils musicaux par style</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://itunes.apple.com">
+</head>
+<body>
+  <div class="fond"></div>
+
+  <header class="entete">
+    <div class="marque">
+      <span class="disque" aria-hidden="true"></span>
+      <div>
+        <h1>Sillon</h1>
+        <p class="baseline">Des morceaux conseillés selon votre style — récents&nbsp;&amp;&nbsp;classiques.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="selecteur">
+      <h2 class="section-titre">Choisissez un style</h2>
+      <div id="styles" class="chips"></div>
+      <div id="filtres" class="filtres" hidden></div>
+    </section>
+
+    <section class="resultats">
+      <div class="widget-entete">
+        <h2 id="widget-titre" class="section-titre">Votre sélection</h2>
+        <div id="widget-actions" class="widget-actions" hidden>
+          <button id="integrer" class="btn-integrer">&lt;/&gt; Intégrer</button>
+          <button id="regenerer" class="btn-regen">↻ Régénérer</button>
+        </div>
+      </div>
+
+      <p id="statut" class="statut" hidden></p>
+
+      <div id="widget" class="widget">
+        <div class="vide">
+          <span class="vide-ico">🎧</span>
+          <p>Sélectionnez un style ci-dessus pour recevoir vos conseils.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied">
+    <p>Extraits &amp; pochettes via l'API iTunes Search. Liens critiques : Télérama, Le Monde, Rolling Stone, Rock &amp; Folk. Sélection éditoriale « Sillon ».</p>
+  </footer>
+
+  <!-- Fenêtre d'intégration -->
+  <dialog id="modale" class="modale">
+    <h3 id="embed-titre">Intégrer ce widget</h3>
+    <p class="modale-info">Copiez ce code et collez-le dans une page HTML pour afficher le widget (via une iframe autonome).</p>
+
+    <div class="embed-champ">
+      <span class="embed-label">Sources critiques affichées <em>(2 max)</em></span>
+      <div id="embed-sources" class="embed-sources"></div>
+    </div>
+
+    <textarea id="embed-code" readonly rows="6"></textarea>
+    <div class="modale-actions">
+      <button id="embed-copier" class="btn-regen">Copier</button>
+      <button id="embed-fermer" class="btn-integrer">Fermer</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

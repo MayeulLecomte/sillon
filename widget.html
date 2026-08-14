@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sillon — widget</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://itunes.apple.com">
+</head>
+<body class="embed">
+  <div class="embed-entete">
+    <span id="w-titre" class="embed-titre">Sillon</span>
+    <div class="embed-actions">
+      <button id="w-regen" class="embed-btn" title="Régénérer" aria-label="Régénérer">↻</button>
+      <a id="w-marque" class="embed-marque" href="./index.html" target="_blank" rel="noopener">Sillon ↗</a>
+    </div>
+  </div>
+
+  <p id="w-statut" class="statut" hidden></p>
+  <div id="w-grille" class="widget embed-grille"></div>
+
+  <script type="module" src="widget.js"></script>
+</body>
+</html>
