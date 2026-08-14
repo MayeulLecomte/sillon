@@ -27,21 +27,24 @@ const statut  = document.getElementById("w-statut");
 document.getElementById("w-titre").textContent = `${style.emoji} ${style.label}`;
 document.title = `Sillon — ${style.label}`;
 
-async function charger() {
+async function charger(essai = 0) {
   lecteur.stop();
   grille.innerHTML = "";
-  statut.textContent = "Chargement…";
+  statut.textContent = essai === 0 ? "Chargement…" : "Nouvelle tentative…";
   statut.hidden = false;
   try {
-    const morceaux = await genererMorceaux(style, filtre, { nbMorceaux: n });
+    // Peu d'artistes = peu de requêtes (on ménage la limite de l'API iTunes)
+    const nbArtistes = Math.max(2, Math.ceil(n / 2));
+    const morceaux = await genererMorceaux(style, filtre, { nbMorceaux: n, nbArtistes });
     if (!morceaux.length) { statut.textContent = "Aucun extrait pour ce choix."; return; }
     statut.hidden = true;
     morceaux.forEach((m, i) => grille.appendChild(creerCarte(m, i, lecteur, { sources, ecoute })));
   } catch (e) {
     console.error(e);
-    statut.textContent = "Erreur de chargement.";
+    if (essai < 2) { setTimeout(() => charger(essai + 1), 1500); return; }
+    statut.textContent = "Catalogue injoignable (limite temporaire d'iTunes ?). Touchez ↻ pour réessayer.";
   }
 }
 
-document.getElementById("w-regen").addEventListener("click", charger);
+document.getElementById("w-regen").addEventListener("click", () => charger());
 charger();
