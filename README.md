@@ -10,9 +10,14 @@ interroge l'**API iTunes Search** (gratuite) directement depuis le navigateur.
 🌍 **En ligne :** https://mayeullecomte.github.io/sillon/
 · Widget : https://mayeullecomte.github.io/sillon/widget.html?style=jazz
 
-📱 **Sur iPhone (écran d'accueil) :** Safari → ouvrir le site → bouton **Partager**
+📱 **Sur iPhone (icône écran d'accueil) :** Safari → ouvrir le site → bouton **Partager**
 → **« Sur l'écran d'accueil »**. Sillon s'installe comme une app (icône vinyle, plein écran).
-*(iOS réserve les widgets d'écran **verrouillé** aux apps natives — non couvert ici.)*
+
+🧩 **Grand widget d'écran d'accueil (2 suggestions) :** via l'app gratuite **Scriptable**.
+Copiez le contenu de [`sillon-widget.js`](sillon-widget.js) dans un nouveau script Scriptable,
+puis ajoutez un widget **Large** relié à ce script. Paramètre du widget = un style
+(`jazz`, `chanson`, `electro`…) ou vide pour un style aléatoire. Au toucher → Deezer.
+*(iOS réserve les widgets d'écran **verrouillé** aux apps natives ; ici c'est l'écran d'accueil.)*
 
 ---
 
