@@ -32,6 +32,21 @@ export function lienCritique(m, sourceId) {
   return src.url(encodeURIComponent(m.artisteRef || m.artiste));         // sinon recherche
 }
 
+/* ---- Plateformes d'écoute ----------------------------------------
+   Apple Music : lien direct du morceau (fourni par iTunes).
+   Deezer      : recherche "artiste titre" (URL réelle, ouvre le morceau).
+------------------------------------------------------------------- */
+export const ECOUTES = [
+  { id: "apple",  label: "Apple Music", url: (m) => m.lien },
+  { id: "deezer", label: "Deezer",      url: (m) => `https://www.deezer.com/search/${encodeURIComponent(`${m.artiste} ${m.titre}`)}` },
+];
+
+export function resoudreEcoutes(ids) {
+  if (!Array.isArray(ids) || ids.length === 0) return ECOUTES;
+  const choisies = ECOUTES.filter((e) => ids.includes(e.id));
+  return choisies.length ? choisies : ECOUTES;
+}
+
 /* ---- Requête + composition --------------------------------------- */
 async function chercherArtiste(nom, styleObj) {
   const url = `${API}?term=${encodeURIComponent(nom)}`
@@ -122,8 +137,9 @@ export function resoudreSources(ids) {
 }
 
 /* ---- Fabrication d'une carte -------------------------------------
-   opts.sources : tableau d'ids de sources à afficher (ex. ["telerama","lemonde"]).
-                  Absent -> toutes les sources.
+   opts.sources : ids de sources critiques à afficher (ex. ["telerama","lemonde"]).
+   opts.ecoute  : ids de plateformes d'écoute (ex. ["apple","deezer"]).
+                  Absents -> tout est affiché.
 ------------------------------------------------------------------- */
 export function creerCarte(m, i, lecteur, opts = {}) {
   const carte = document.createElement("article");
@@ -137,6 +153,12 @@ export function creerCarte(m, i, lecteur, opts = {}) {
   const liensCritiques = resoudreSources(opts.sources).map((s) =>
     `<a class="lien lien-critique" href="${lienCritique(m, s.id)}" target="_blank" rel="noopener">${s.label} ↗</a>`
   ).join("");
+
+  const liensEcoute = resoudreEcoutes(opts.ecoute)
+    .map((e) => ({ e, href: e.url(m) }))
+    .filter((x) => x.href)   // Apple Music absent si pas de lien fourni
+    .map((x) => `<a class="lien lien-ecoute" href="${x.href}" target="_blank" rel="noopener">${x.e.label} ↗</a>`)
+    .join("");
 
   carte.innerHTML = `
     <div class="pochette">
@@ -155,7 +177,7 @@ export function creerCarte(m, i, lecteur, opts = {}) {
       </div>
       <div class="liens">
         ${liensCritiques}
-        ${m.lien ? `<a class="lien lien-ecoute" href="${m.lien}" target="_blank" rel="noopener">Écouter ↗</a>` : ""}
+        ${liensEcoute}
       </div>
     </div>
   `;

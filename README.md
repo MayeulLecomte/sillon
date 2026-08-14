@@ -45,18 +45,20 @@ Puis ouvrez **http://127.0.0.1:8765** dans votre navigateur.
 Le widget vit dans `widget.html`, piloté par l'URL :
 
 ```
-widget.html?style=<id>&filtre=<tout|recent|classique>&n=<1..24>&sources=<id,id>
+widget.html?style=<id>&filtre=<tout|recent|classique>&n=<1..24>&sources=<id,id>&ecoute=<id,id>
 ```
 
-- `sources` : quelles sources critiques afficher sur les cartes du widget.
+- `sources` : quelles **sources critiques** afficher sur les cartes du widget.
   **1 ou 2 maximum** (défaut : `telerama,lemonde`). Ids possibles :
   `telerama`, `lemonde`, `rollingstone`, `rockfolk`.
+- `ecoute` : quelles **plateformes d'écoute** afficher (défaut : `apple,deezer`).
+  Ids possibles : `apple`, `deezer`. Ex. `ecoute=deezer` pour n'afficher que Deezer.
 
 Dans l'appli, le bouton **`</> Intégrer`** ouvre une fenêtre où l'on **coche les
-sources** (2 max) avant de copier le code. Exemple :
+sources** (2 max) et les **plateformes d'écoute** avant de copier le code. Exemple :
 
 ```html
-<iframe src="https://mayeullecomte.github.io/sillon/widget.html?style=jazz&filtre=tout&n=6&sources=telerama,rollingstone"
+<iframe src="https://mayeullecomte.github.io/sillon/widget.html?style=jazz&filtre=tout&n=6&sources=telerama,lemonde&ecoute=apple,deezer"
         width="100%" height="520" frameborder="0"
         style="border:0;border-radius:16px;max-width:720px"
         loading="lazy" title="Sillon — Jazz"></iframe>

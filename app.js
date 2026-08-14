@@ -1,5 +1,5 @@
 import { STYLES } from "./data.js";
-import { genererMorceaux, creerCarte, creerLecteur, SOURCES } from "./engine.js";
+import { genererMorceaux, creerCarte, creerLecteur, SOURCES, ECOUTES } from "./engine.js";
 
 /* ------------------------------------------------------------------
    Sillon — appli principale (couche UI, s'appuie sur engine.js)
@@ -101,10 +101,24 @@ function initSourcesEmbed() {
     limiterA2();
     majCodeEmbed();
   });
+
+  // Plateformes d'écoute (Apple Music + Deezer, cochées par défaut)
+  const ecoutes = document.getElementById("embed-ecoutes");
+  ECOUTES.forEach((e) => {
+    const label = document.createElement("label");
+    label.className = "embed-source";
+    label.innerHTML = `<input type="checkbox" value="${e.id}" checked> <span>${e.label}</span>`;
+    ecoutes.appendChild(label);
+  });
+  ecoutes.addEventListener("change", majCodeEmbed);
 }
 
 function sourcesCochees() {
   return [...document.querySelectorAll('#embed-sources input:checked')].map((c) => c.value);
+}
+
+function ecoutesCochees() {
+  return [...document.querySelectorAll('#embed-ecoutes input:checked')].map((c) => c.value);
 }
 
 // Empêche de cocher plus de 2 sources
@@ -121,6 +135,8 @@ function majCodeEmbed() {
   let src = `${base}/widget.html?style=${styleActif.id}&filtre=${filtreActif}&n=6`;
   const src2 = sourcesCochees();
   if (src2.length) src += `&sources=${src2.join(",")}`;
+  const ecs = ecoutesCochees();
+  if (ecs.length) src += `&ecoute=${ecs.join(",")}`;
   document.getElementById("embed-code").value =
 `<iframe src="${src}"
         width="100%" height="520" frameborder="0"

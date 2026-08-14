@@ -16,6 +16,10 @@ const style   = STYLES.find((s) => s.id === styleId) || STYLES[0];
 const sources = (params.get("sources") || "telerama,lemonde")
   .split(",").map((s) => s.trim()).filter(Boolean).slice(0, 2);
 
+// Plateformes d'écoute : ?ecoute=apple,deezer  (défaut : les deux)
+const ecoute = (params.get("ecoute") || "apple,deezer")
+  .split(",").map((s) => s.trim()).filter(Boolean);
+
 const lecteur = creerLecteur();
 const grille  = document.getElementById("w-grille");
 const statut  = document.getElementById("w-statut");
@@ -32,7 +36,7 @@ async function charger() {
     const morceaux = await genererMorceaux(style, filtre, { nbMorceaux: n });
     if (!morceaux.length) { statut.textContent = "Aucun extrait pour ce choix."; return; }
     statut.hidden = true;
-    morceaux.forEach((m, i) => grille.appendChild(creerCarte(m, i, lecteur, { sources })));
+    morceaux.forEach((m, i) => grille.appendChild(creerCarte(m, i, lecteur, { sources, ecoute })));
   } catch (e) {
     console.error(e);
     statut.textContent = "Erreur de chargement.";
