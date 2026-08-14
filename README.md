@@ -7,6 +7,9 @@ Une appli web qui **conseille des morceaux selon un style choisi**, en mêlant
 Aucune installation, aucune clé API, aucun serveur : une simple page web qui
 interroge l'**API iTunes Search** (gratuite) directement depuis le navigateur.
 
+🌍 **En ligne :** https://mayeullecomte.github.io/sillon/
+· Widget : https://mayeullecomte.github.io/sillon/widget.html?style=jazz
+
 ---
 
 ## ▶️ Lancer l'appli
@@ -53,7 +56,7 @@ Dans l'appli, le bouton **`</> Intégrer`** ouvre une fenêtre où l'on **coche 
 sources** (2 max) avant de copier le code. Exemple :
 
 ```html
-<iframe src="https://VOTRE-SITE/sillon/widget.html?style=jazz&filtre=tout&n=6&sources=telerama,rollingstone"
+<iframe src="https://mayeullecomte.github.io/sillon/widget.html?style=jazz&filtre=tout&n=6&sources=telerama,rollingstone"
         width="100%" height="520" frameborder="0"
         style="border:0;border-radius:16px;max-width:720px"
         loading="lazy" title="Sillon — Jazz"></iframe>
