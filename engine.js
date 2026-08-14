@@ -85,8 +85,15 @@ export async function genererMorceaux(styleObj, filtre = "tout", opts = {}) {
   if (filtre === "classique") pool = trierParEre(pool, "classique");
   const choisis = melanger(pool).slice(0, nbArtistes);
 
-  const lots = await Promise.all(choisis.map((a) => chercherArtiste(a.nom, styleObj)));
-  let morceaux = filtrerParDate(lots.flat(), filtre);
+  // allSettled : un artiste qui échoue (réseau, limite iTunes…) n'annule pas les autres
+  const lots = await Promise.allSettled(choisis.map((a) => chercherArtiste(a.nom, styleObj)));
+  const reussis = lots.filter((r) => r.status === "fulfilled");
+  const morceauxBruts = reussis.flatMap((r) => r.value);
+
+  // Si absolument TOUTES les requêtes ont échoué -> on signale une vraie panne réseau
+  if (reussis.length === 0) throw new Error("Toutes les requêtes ont échoué");
+
+  let morceaux = filtrerParDate(morceauxBruts, filtre);
   morceaux = dedoublonner(morceaux, "trackId");
   return melanger(morceaux).slice(0, nbMorceaux);
 }

@@ -58,25 +58,32 @@ function choisirStyle(id) {
 }
 
 // ---- Génération ---------------------------------------------------
-async function genererSelection() {
+async function genererSelection(essai = 0) {
   lecteur.stop();
   elTitre.textContent = `${styleActif.emoji} ${styleActif.label}`;
   elActions.hidden = false;
   elWidget.innerHTML = "";
-  elStatut.textContent = "Sillon parcourt les bacs à disques…";
+  elStatut.textContent = essai === 0
+    ? "Sillon parcourt les bacs à disques…"
+    : "Le catalogue tarde à répondre… nouvelle tentative.";
   elStatut.hidden = false;
 
   try {
     const morceaux = await genererMorceaux(styleActif, filtreActif, { nbMorceaux: NB_MORCEAUX });
     if (morceaux.length === 0) {
-      elStatut.textContent = "Aucun extrait trouvé pour ce filtre. Essayez « Tout ».";
+      elStatut.textContent = "Rien trouvé pour ce filtre. Essayez « Tout », ou touchez « Régénérer ».";
       return;
     }
     elStatut.hidden = true;
     morceaux.forEach((m, i) => elWidget.appendChild(creerCarte(m, i, lecteur)));
   } catch (e) {
     console.error(e);
-    elStatut.textContent = "Oups, impossible de contacter le catalogue. Réessayez.";
+    // Nouvelle tentative automatique (les limites iTunes sont souvent passagères)
+    if (essai < 2) {
+      setTimeout(() => genererSelection(essai + 1), 1500);
+      return;
+    }
+    elStatut.textContent = "Catalogue injoignable (peut-être une limite temporaire d'iTunes). Réessayez dans une minute.";
   }
 }
 
