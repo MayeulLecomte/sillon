@@ -47,19 +47,43 @@ export function resoudreEcoutes(ids) {
   return choisies.length ? choisies : ECOUTES;
 }
 
+/* ---- Cache local (résiste aux limites de l'API iTunes) -----------
+   Une fois un artiste chargé, on le garde ~7 jours dans localStorage :
+   - relances suivantes = AUCUNE requête (donc plus de limite atteinte)
+   - si l'API bloque, on se rabat sur la dernière version en cache.
+------------------------------------------------------------------- */
+const CACHE_MS = 7 * 24 * 60 * 60 * 1000;   // 7 jours
+const cacheCle = (nom) => "sillon:art:" + nom.toLowerCase();
+
+function lireCache(nom) {
+  try { return JSON.parse(localStorage.getItem(cacheCle(nom)) || "null"); }
+  catch (e) { return null; }
+}
+function ecrireCache(nom, morceaux) {
+  try { localStorage.setItem(cacheCle(nom), JSON.stringify({ t: Date.now(), v: morceaux })); }
+  catch (e) { /* localStorage indisponible (navigation privée) */ }
+}
+
+// Récupère TOUT ce qui est en cache (frais) pour les artistes d'un style — sans requête.
+function toutLeCache(styleObj) {
+  const out = [];
+  for (const a of (styleObj?.artistes || [])) {
+    const cache = lireCache(a.nom);
+    if (cache && (Date.now() - cache.t) < CACHE_MS) {
+      for (const m of cache.v) out.push({ ...m, critique: a.critique || null });
+    }
+  }
+  return out;
+}
+
 /* ---- Requête + composition --------------------------------------- */
 async function chercherArtiste(nom, styleObj) {
-  const url = `${API}?term=${encodeURIComponent(nom)}`
-    + `&media=music&entity=song&attribute=artistTerm&country=${PAYS}&limit=12`;
-  const rep = await fetch(url);
-  if (!rep.ok) throw new Error("HTTP " + rep.status);
-  const data = await rep.json();
-
   const fiche = (styleObj?.artistes || []).find(
     (a) => a.nom.toLowerCase() === nom.toLowerCase()
   );
+  const avecCritique = (arr) => arr.map((m) => ({ ...m, critique: fiche?.critique || null }));
 
-  return (data.results || [])
+  const transformer = (results) => (results || [])
     .filter((r) => r.previewUrl && r.artworkUrl100)
     .map((r) => ({
       trackId: r.trackId,
@@ -72,8 +96,27 @@ async function chercherArtiste(nom, styleObj) {
       preview: r.previewUrl,
       pochette: (r.artworkUrl100 || "").replace("100x100", "300x300"),
       lien: r.trackViewUrl || r.collectionViewUrl || "",
-      critique: fiche?.critique || null,
     }));
+
+  // 1) Cache frais -> pas de requête du tout
+  const cache = lireCache(nom);
+  if (cache && (Date.now() - cache.t) < CACHE_MS) return avecCritique(cache.v);
+
+  // 2) Sinon on interroge l'API…
+  try {
+    const url = `${API}?term=${encodeURIComponent(nom)}`
+      + `&media=music&entity=song&attribute=artistTerm&country=${PAYS}&limit=12`;
+    const rep = await fetch(url);
+    if (!rep.ok) throw new Error("HTTP " + rep.status);
+    const data = await rep.json();
+    const morceaux = transformer(data.results);
+    ecrireCache(nom, morceaux);
+    return avecCritique(morceaux);
+  } catch (e) {
+    // 3) …et en cas d'échec (limite iTunes), on se rabat sur le cache périmé
+    if (cache) return avecCritique(cache.v);
+    throw e;
+  }
 }
 
 export async function genererMorceaux(styleObj, filtre = "tout", opts = {}) {
@@ -88,10 +131,14 @@ export async function genererMorceaux(styleObj, filtre = "tout", opts = {}) {
   // allSettled : un artiste qui échoue (réseau, limite iTunes…) n'annule pas les autres
   const lots = await Promise.allSettled(choisis.map((a) => chercherArtiste(a.nom, styleObj)));
   const reussis = lots.filter((r) => r.status === "fulfilled");
-  const morceauxBruts = reussis.flatMap((r) => r.value);
+  let morceauxBruts = reussis.flatMap((r) => r.value);
 
-  // Si absolument TOUTES les requêtes ont échoué -> on signale une vraie panne réseau
-  if (reussis.length === 0) throw new Error("Toutes les requêtes ont échoué");
+  // Filet de sécurité : si rien n'est revenu (API bloquée + artistes non cachés),
+  // on réutilise TOUT le cache disponible pour ce style (aucune requête).
+  if (morceauxBruts.length === 0) {
+    morceauxBruts = toutLeCache(styleObj);
+    if (morceauxBruts.length === 0) throw new Error("API et cache vides");
+  }
 
   let morceaux = filtrerParDate(morceauxBruts, filtre);
   morceaux = dedoublonner(morceaux, "trackId");
