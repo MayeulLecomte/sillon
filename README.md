@@ -10,6 +10,10 @@ interroge l'**API iTunes Search** (gratuite) directement depuis le navigateur.
 🌍 **En ligne :** https://mayeullecomte.github.io/sillon/
 · Widget : https://mayeullecomte.github.io/sillon/widget.html?style=jazz
 
+📱 **Sur iPhone (écran d'accueil) :** Safari → ouvrir le site → bouton **Partager**
+→ **« Sur l'écran d'accueil »**. Sillon s'installe comme une app (icône vinyle, plein écran).
+*(iOS réserve les widgets d'écran **verrouillé** aux apps natives — non couvert ici.)*
+
 ---
 
 ## ▶️ Lancer l'appli
