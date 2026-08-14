@@ -9,6 +9,7 @@
 // ===================================================================
 
 const PAYS = "fr";
+const NB = 3;   // nombre de suggestions affichées
 
 // Petit vivier d'artistes de référence (classiques + récents), par style.
 const STYLES = {
@@ -57,18 +58,18 @@ async function chercher(nom) {
   } catch (e) { return null; }
 }
 
-// Récupère 2 suggestions d'artistes DIFFÉRENTS
-async function deuxSuggestions() {
+// Récupère NB suggestions d'artistes DIFFÉRENTS
+async function desSuggestions() {
   const out = [];
   for (const nom of artistes) {
-    if (out.length >= 2) break;
+    if (out.length >= NB) break;
     const s = await chercher(nom);
     if (s) out.push(s);
   }
   return out;
 }
 
-const suggestions = await deuxSuggestions();
+const suggestions = await desSuggestions();
 
 // ===================== Construction du widget =====================
 const w = new ListWidget();
@@ -89,7 +90,7 @@ const badge = head.addText(LABELS[styleId] || styleId);
 badge.font = Font.semiboldSystemFont(13);
 badge.textColor = new Color("#f0a63c");
 
-w.addSpacer(14);
+w.addSpacer(10);
 
 if (!suggestions.length) {
   const err = w.addText("Pas de connexion — réessayez plus tard.");
@@ -98,6 +99,8 @@ if (!suggestions.length) {
 } else {
   for (let i = 0; i < suggestions.length; i++) {
     const s = suggestions[i];
+    w.addSpacer();   // répartit les lignes pour remplir le widget
+
     const row = w.addStack();
     row.centerAlignContent();
 
@@ -105,31 +108,30 @@ if (!suggestions.length) {
     try {
       const img = await new Request(s.art).loadImage();
       const wi = row.addImage(img);
-      wi.imageSize = new Size(72, 72);
-      wi.cornerRadius = 10;
+      wi.imageSize = new Size(62, 62);
+      wi.cornerRadius = 9;
     } catch (e) { /* pochette indisponible */ }
 
-    row.addSpacer(14);
+    row.addSpacer(13);
 
     // Titre / artiste · année
     const col = row.addStack();
     col.layoutVertically();
     const titre = col.addText(s.titre);
-    titre.font = Font.boldSystemFont(17);
+    titre.font = Font.boldSystemFont(16);
     titre.textColor = new Color("#f2eef7");
     titre.lineLimit = 1;
-    col.addSpacer(3);
+    col.addSpacer(2);
     const meta = s.artiste + (s.annee ? "  ·  " + s.annee : "");
     const art = col.addText(meta);
-    art.font = Font.systemFont(13);
+    art.font = Font.systemFont(12);
     art.textColor = new Color("#a79fb4");
     art.lineLimit = 1;
 
     row.addSpacer();
-    if (i < suggestions.length - 1) w.addSpacer(14);
   }
 
-  w.addSpacer(12);
+  w.addSpacer();   // espace flexible avant le pied
   const foot = w.addText("Touchez pour écouter →");
   foot.font = Font.mediumSystemFont(12);
   foot.textColor = new Color("#e5533c");
