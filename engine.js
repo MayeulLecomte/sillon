@@ -46,6 +46,9 @@ export const SOURCES = [
   { id: "lemonde",      label: "Le Monde" },
   { id: "rollingstone", label: "Rolling Stone" },
   { id: "rockfolk",     label: "Rock & Folk" },
+  { id: "nme",          label: "NME" },
+  { id: "pitchfork",    label: "Pitchfork" },
+  { id: "guardian",     label: "The Guardian" },
 ];
 
 // URL de l'article VÉRIFIÉ pour cette source, ou null si non renseigné.
