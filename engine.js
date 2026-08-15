@@ -7,6 +7,8 @@
    - fabrication d'une carte + lecteur d'extraits
 ================================================================== */
 
+import { FALLBACK } from "./fallback.js";   // jeu de secours embarqué (si iTunes bugue)
+
 const API = "https://itunes.apple.com/search";
 export const PAYS = "FR";           // marché iTunes
 const NB_ARTISTES = 6;              // artistes piochés par génération
@@ -133,14 +135,22 @@ export async function genererMorceaux(styleObj, filtre = "tout", opts = {}) {
   const reussis = lots.filter((r) => r.status === "fulfilled");
   let morceauxBruts = reussis.flatMap((r) => r.value);
 
-  // Filet de sécurité : si rien n'est revenu (API bloquée + artistes non cachés),
-  // on réutilise TOUT le cache disponible pour ce style (aucune requête).
+  // Filet de sécurité 1 : rien de l'API -> tout le cache disponible pour ce style.
+  if (morceauxBruts.length === 0) morceauxBruts = toutLeCache(styleObj);
+
+  // Filet de sécurité 2 : toujours rien -> jeu de secours EMBARQUÉ (jamais d'erreur).
   if (morceauxBruts.length === 0) {
-    morceauxBruts = toutLeCache(styleObj);
-    if (morceauxBruts.length === 0) throw new Error("API et cache vides");
+    morceauxBruts = (FALLBACK[styleObj.id] || []).map((m) => {
+      const fiche = (styleObj.artistes || []).find(
+        (a) => a.nom.toLowerCase() === (m.artisteRef || "").toLowerCase()
+      );
+      return { ...m, critique: fiche?.critique || null };
+    });
   }
 
   let morceaux = filtrerParDate(morceauxBruts, filtre);
+  // Si le filtre date vide tout (secours restreint), on montre au moins le secours brut.
+  if (morceaux.length === 0 && morceauxBruts.length > 0) morceaux = morceauxBruts;
   morceaux = dedoublonner(morceaux, "trackId");
   return melanger(morceaux).slice(0, nbMorceaux);
 }
