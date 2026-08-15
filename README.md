@@ -5,7 +5,9 @@ Une appli web qui **conseille des morceaux selon un style choisi**, en mêlant
 **widget** : pochette, titre, artiste, extrait de 30 s jouable, et lien vers la fiche.
 
 Aucune installation, aucune clé API, aucun serveur : une simple page web qui
-interroge l'**API iTunes Search** (gratuite) directement depuis le navigateur.
+interroge l'**API Deezer** (gratuite, via JSONP) directement depuis le navigateur.
+La distinction *récent / classique* se base sur l'étiquette de l'artiste (`data.js`),
+Deezer ne fournissant pas la date de sortie.
 
 🌍 **En ligne :** https://mayeullecomte.github.io/sillon/
 · Widget : https://mayeullecomte.github.io/sillon/widget.html?style=jazz
