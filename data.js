@@ -6,16 +6,18 @@
    CLASSIQUES ("anciens") et découvertes RÉCENTES, dans l'esprit
    des sélections d'une rédaction musicale (Télérama, Le Monde...).
 
-   ⚠️  On ne recopie AUCUN texte de critique. Par défaut, chaque carte
-   propose un lien de RECHERCHE de l'artiste sur Télérama et Le Monde
-   (généré automatiquement — réel, jamais inventé).
+   ⚠️  RÈGLE ANTI-FAUSSE-ATTRIBUTION : une source presse ne s'affiche QUE
+   si l'artiste a un lien d'ARTICLE RÉEL et vérifié (champ `critique`).
+   Aucun lien de recherche n'est généré. Sans `critique` → aucune source.
 
-   Champ optionnel par artiste, si vous trouvez UN article précis à citer :
+   Champ optionnel par artiste — n'ajouter qu'après avoir ouvert l'URL
+   et confirmé qu'elle répond (200) ET parle bien de cet artiste :
      { nom: "...", ere: "recent", critique: {
-         telerama: "https://www.telerama.fr/musique/....",
-         lemonde:  "https://www.lemonde.fr/musiques/article/...."
+         rollingstone: "https://www.rollingstone.com/music/music-album-reviews/....",
+         telerama:     "https://www.telerama.fr/musique/....",
+         lemonde:      "https://www.lemonde.fr/musiques/article/...."
      }}
-   Renseigné → la carte pointe vers l'article ; sinon → recherche par défaut.
+   On ne recopie JAMAIS le texte des critiques (droit d'auteur).
 ------------------------------------------------------------------ */
 
 export const STYLES = [
