@@ -31,22 +31,26 @@ function jsonp(url, timeoutMs = 8000) {
 }
 
 /* ---- Sources critiques -------------------------------------------
-   Par défaut : lien de RECHERCHE de l'artiste (URL réelle, jamais inventée).
-   Un artiste peut fournir un article précis via data.js :
-     critique: { telerama: "...", lemonde: "...", rollingstone: "...", rockfolk: "..." }
+   RÈGLE : on n'affiche une source QUE si data.js fournit un lien
+   d'article RÉEL et vérifié pour l'artiste, via le champ `critique` :
+     { nom: "…", ere: "…", critique: {
+         telerama: "https://www.telerama.fr/musique/….",
+         lemonde:  "https://www.lemonde.fr/musiques/article/…."
+     }}
+   Sinon : AUCUNE source affichée. On ne génère PAS de lien de recherche
+   — afficher « Télérama » sans article vérifié serait une fausse
+   attribution à un média (et les recherches ne prouvent aucune critique).
 ------------------------------------------------------------------- */
 export const SOURCES = [
-  { id: "telerama",     label: "Télérama",      url: (q) => `https://www.telerama.fr/recherche?q=${q}` },
-  { id: "lemonde",      label: "Le Monde",      url: (q) => `https://www.lemonde.fr/recherche/?search_keywords=${q}&search_sort=relevance_desc` },
-  { id: "rollingstone", label: "Rolling Stone", url: (q) => `https://www.rollingstone.com/results/?q=${q}` },
-  { id: "rockfolk",     label: "Rock & Folk",   url: (q) => `https://www.rockandfolk.com/?s=${q}` },
+  { id: "telerama",     label: "Télérama" },
+  { id: "lemonde",      label: "Le Monde" },
+  { id: "rollingstone", label: "Rolling Stone" },
+  { id: "rockfolk",     label: "Rock & Folk" },
 ];
 
+// URL de l'article VÉRIFIÉ pour cette source, ou null si non renseigné.
 export function lienCritique(m, sourceId) {
-  const src = SOURCES.find((s) => s.id === sourceId);
-  if (!src) return "#";
-  if (m.critique && m.critique[sourceId]) return m.critique[sourceId];   // article précis
-  return src.url(encodeURIComponent(m.artisteRef || m.artiste));         // sinon recherche
+  return (m.critique && m.critique[sourceId]) || null;
 }
 
 /* ---- Plateformes d'écoute ----------------------------------------
@@ -226,9 +230,12 @@ export function creerCarte(m, i, lecteur, opts = {}) {
     ? `<span class="badge recent">Récent</span>`
     : (m.ere === "classique" ? `<span class="badge">Classique</span>` : "");
 
-  const liensCritiques = resoudreSources(opts.sources).map((s) =>
-    `<a class="lien lien-critique" href="${lienCritique(m, s.id)}" target="_blank" rel="noopener">${s.label} ↗</a>`
-  ).join("");
+  // Uniquement les sources avec un article RÉEL et vérifié (sinon : rien affiché).
+  const liensCritiques = resoudreSources(opts.sources)
+    .map((s) => ({ s, href: lienCritique(m, s.id) }))
+    .filter((x) => x.href)
+    .map((x) => `<a class="lien lien-critique" href="${escapeHtml(x.href)}" target="_blank" rel="noopener">${x.s.label} ↗</a>`)
+    .join("");
 
   const liensEcoute = resoudreEcoutes(opts.ecoute)
     .map((e) => ({ e, href: e.url(m) }))

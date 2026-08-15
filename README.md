@@ -106,30 +106,28 @@ dans l'esprit d'une rédaction musicale. C'est ce fichier qu'on enrichit dans le
 Ajouter des artistes/albums, affiner par sous-genres, ajouter un champ `critique`
 optionnel par artiste : `{ url, source }` pointant vers l'article d'origine.
 
-### 2. Télérama / Le Monde — **déjà branché ✅ (proprement)**
-> ⚠️ Leurs critiques sont protégées (droit d'auteur) et payantes.
-> On ne recopie **jamais** le texte des critiques.
+### 2. Liens presse (Télérama, Le Monde…) — **articles vérifiés UNIQUEMENT**
+> ⚠️ Règle stricte contre la **fausse attribution** : on n'affiche jamais le nom
+> d'un média à côté d'un album qu'il n'a pas chroniqué.
 
-Chaque carte affiche **quatre liens critiques** — `Télérama ↗`, `Le Monde ↗`,
-`Rolling Stone ↗`, `Rock & Folk ↗` — qui pointent vers une **recherche de l'artiste**
-sur le site concerné (URL réelle, jamais inventée). L'utilisateur atterrit sur la
-couverture de cet artiste. Les sources sont définies dans `engine.js` (`SOURCES`) :
-en ajouter une = une ligne.
-
-Pour pointer vers **un article précis** au lieu de la recherche, renseignez le
-champ optionnel `critique` sur l'artiste dans `data.js` :
+Une source ne s'affiche **que** si `data.js` fournit un **lien d'article réel et
+vérifié** pour l'artiste, via le champ `critique`. Aucun lien de recherche n'est
+généré (une page de recherche prouve zéro critique, et celle du Monde renvoyait
+même un 410). Tant qu'un artiste n'a pas de `critique`, **aucune source n'apparaît**.
 
 ```js
 { nom: "Kendrick Lamar", ere: "recent", critique: {
-    telerama: "https://www.telerama.fr/musique/....",
+    telerama: "https://www.telerama.fr/musique/....",   // article RÉEL, vérifié 200
     lemonde:  "https://www.lemonde.fr/musiques/article/...."
 }}
 ```
 
-Ce qui reste permis (et recommandé) :
-- **Lier** vers leurs articles/recherches (jamais recopier le texte).
-- **S'inspirer de leurs sélections** pour alimenter `data.js` (le *fait* qu'un
-  album a été salué peut nourrir notre curation — pas leur prose).
+**Avant d'ajouter un lien** : ouvre-le, vérifie qu'il répond (200) et qu'il parle
+bien de cet artiste/album. Ne jamais deviner ni fabriquer une URL. Idéalement,
+alimenter ce champ depuis un **flux vérifiable** (RSS de l'éditeur, base curée à la main).
+
+- On ne recopie **jamais** le texte des critiques (droit d'auteur).
+- S'inspirer de leurs sélections pour choisir les artistes de `data.js` reste permis.
 
 ### 3. Widget embarquable — **fait ✅**
 Le widget est disponible via `widget.html` + iframe (voir section « Le widget embarquable »).
