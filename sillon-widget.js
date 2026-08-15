@@ -103,6 +103,8 @@ if (!suggestions.length) {
 
     const row = w.addStack();
     row.centerAlignContent();
+    // Chaque ligne ouvre SON propre morceau dans Deezer (grands widgets uniquement)
+    if (s.lien) row.url = s.lien;
 
     // Pochette (Deezer)
     try {
@@ -131,7 +133,7 @@ if (!suggestions.length) {
   }
 
   w.addSpacer();   // espace flexible avant le pied
-  const foot = w.addText("Touchez pour ouvrir Deezer →");
+  const foot = w.addText("Touchez un morceau pour l'ouvrir dans Deezer →");
   foot.font = Font.mediumSystemFont(12);
   foot.textColor = new Color("#e5533c");
 }
