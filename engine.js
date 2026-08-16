@@ -230,7 +230,7 @@ export function creerCarte(m, i, lecteur, opts = {}) {
   carte.style.animationDelay = `${i * 40}ms`;
 
   const badge = m.ere === "recent"
-    ? `<span class="badge recent">Découverte</span>`
+    ? `<span class="badge recent">Incontournable</span>`
     : (m.ere === "classique" ? `<span class="badge">Classique</span>` : "");
 
   // Uniquement les sources avec un article RÉEL et vérifié (sinon : rien affiché).
