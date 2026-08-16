@@ -1,7 +1,7 @@
 # 🎵 Sillon
 
 Une appli web qui **conseille des morceaux selon un style choisi**, en mêlant
-**classiques** et **sorties récentes**. Le résultat s'affiche sous forme de
+**classiques** et **découvertes**. Le résultat s'affiche sous forme de
 **widget** : pochette, titre, artiste, extrait de 30 s jouable, et lien vers la fiche.
 
 Aucune installation, aucune clé API, aucun serveur : une simple page web qui
@@ -92,7 +92,7 @@ Ids de style disponibles : `jazz`, `rock`, `hiphop`, `rap-fr`, `electro`, `chans
 1. On choisit un **style** (Jazz, Rock, Électro…).
 2. `app.js` pioche quelques **artistes de référence** de ce style (dans `data.js`)
    et interroge l'API iTunes pour récupérer leurs morceaux.
-3. Un filtre optionnel restreint aux **sorties récentes** (< 3 ans) ou aux **classiques**.
+3. Un filtre optionnel restreint aux **Découvertes** (artistes contemporains) ou aux **Classiques** — basé sur l'étiquette `ere` de l'artiste (Deezer ne fournit pas la date de sortie).
 4. Le **widget** affiche la sélection. « ↻ Régénérer » propose une nouvelle fournée.
 
 `data.js` est le **cœur du projet** : c'est là que vit la sélection éditoriale,

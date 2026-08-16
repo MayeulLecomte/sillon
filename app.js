@@ -32,7 +32,7 @@ function init() {
 
   [
     { id: "tout",      label: "Tout" },
-    { id: "recent",    label: "Sorties récentes" },
+    { id: "recent",    label: "Découvertes" },
     { id: "classique", label: "Classiques" },
   ].forEach((f) => {
     const btn = document.createElement("button");
