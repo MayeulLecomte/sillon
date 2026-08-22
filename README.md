@@ -1,4 +1,4 @@
-# 🎵 Sillon
+# 🎵 MySaphir
 
 Une appli web qui **conseille des morceaux selon un style choisi**, en mêlant
 **classiques** et **incontournables**. Le résultat s'affiche sous forme de
@@ -13,7 +13,7 @@ Deezer ne fournissant pas la date de sortie.
 · Widget : https://mayeullecomte.github.io/sillon/widget.html?style=jazz
 
 📱 **Sur iPhone (icône écran d'accueil) :** Safari → ouvrir le site → bouton **Partager**
-→ **« Sur l'écran d'accueil »**. Sillon s'installe comme une app (icône vinyle, plein écran).
+→ **« Sur l'écran d'accueil »**. MySaphir s'installe comme une app (icône vinyle, plein écran).
 
 🧩 **Grand widget d'écran d'accueil (2 suggestions) :** via l'app gratuite **Scriptable**.
 Copiez le contenu de [`sillon-widget.js`](sillon-widget.js) dans un nouveau script Scriptable,
@@ -72,7 +72,7 @@ sources** (2 max) et les **plateformes d'écoute** avant de copier le code. Exem
 <iframe src="https://mayeullecomte.github.io/sillon/widget.html?style=jazz&filtre=tout&n=6&sources=telerama,lemonde&ecoute=apple,deezer"
         width="100%" height="520" frameborder="0"
         style="border:0;border-radius:16px;max-width:720px"
-        loading="lazy" title="Sillon — Jazz"></iframe>
+        loading="lazy" title="MySaphir — Jazz"></iframe>
 ```
 
 > À noter : l'appli principale affiche les 4 sources (c'est le tableau de bord) ;
@@ -140,4 +140,4 @@ de l'utilisateur) pour lire les morceaux entiers au lieu des extraits de 30 s.
 
 ---
 
-*Extraits & pochettes fournis par l'API iTunes Search. Sélection éditoriale « Sillon ».*
+*Extraits & pochettes fournis par l'API iTunes Search. Sélection éditoriale « MySaphir ».*

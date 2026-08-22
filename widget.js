@@ -2,7 +2,7 @@ import { STYLES } from "./data.js";
 import { genererMorceaux, creerCarte, creerLecteur } from "./engine.js";
 
 /* ------------------------------------------------------------------
-   Sillon — widget embarquable (autonome, piloté par l'URL)
+   MySaphir — widget embarquable (autonome, piloté par l'URL)
    Paramètres : ?style=<id>&filtre=<tout|recent|classique>&n=<1..24>
 ------------------------------------------------------------------ */
 
@@ -25,7 +25,7 @@ const grille  = document.getElementById("w-grille");
 const statut  = document.getElementById("w-statut");
 
 document.getElementById("w-titre").textContent = `${style.emoji} ${style.label}`;
-document.title = `Sillon — ${style.label}`;
+document.title = `MySaphir — ${style.label}`;
 
 async function charger(essai = 0) {
   lecteur.stop();

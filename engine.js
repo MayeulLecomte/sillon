@@ -1,5 +1,5 @@
 /* ==================================================================
-   Sillon — engine.js
+   MySaphir — engine.js
    Moteur PARTAGÉ entre l'appli (app.js) et le widget (widget.js) :
    - requêtes Deezer (via JSONP, car Deezer bloque le fetch navigateur)
    - composition de la sélection

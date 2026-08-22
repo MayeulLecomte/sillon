@@ -1,6 +1,6 @@
 {
-  "name": "Sillon — conseils musicaux",
-  "short_name": "Sillon",
+  "name": "MySaphir — conseils musicaux",
+  "short_name": "MySaphir",
   "description": "Des morceaux conseillés selon votre style — récents & classiques.",
   "start_url": "./index.html",
   "scope": "./",

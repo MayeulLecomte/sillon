@@ -2,7 +2,7 @@ import { STYLES } from "./data.js";
 import { genererMorceaux, creerCarte, creerLecteur, SOURCES, ECOUTES } from "./engine.js";
 
 /* ------------------------------------------------------------------
-   Sillon — appli principale (couche UI, s'appuie sur engine.js)
+   MySaphir — appli principale (couche UI, s'appuie sur engine.js)
 ------------------------------------------------------------------ */
 
 const NB_MORCEAUX = 12;
@@ -64,7 +64,7 @@ async function genererSelection(essai = 0) {
   elActions.hidden = false;
   elWidget.innerHTML = "";
   elStatut.textContent = essai === 0
-    ? "Sillon parcourt les bacs à disques…"
+    ? "MySaphir parcourt les bacs à disques…"
     : "Le catalogue tarde à répondre… nouvelle tentative.";
   elStatut.hidden = false;
 
@@ -148,7 +148,7 @@ function majCodeEmbed() {
 `<iframe src="${src}"
         width="100%" height="520" frameborder="0"
         style="border:0;border-radius:16px;max-width:720px"
-        loading="lazy" title="Sillon — ${styleActif.label}"></iframe>`;
+        loading="lazy" title="MySaphir — ${styleActif.label}"></iframe>`;
 }
 
 function ouvrirEmbed() {

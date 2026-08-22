@@ -1,5 +1,5 @@
 // ===================================================================
-//  Sillon — widget d'écran d'accueil (pour l'app SCRIPTABLE, iOS)
+//  MySaphir — widget d'écran d'accueil (pour l'app SCRIPTABLE, iOS)
 //  ------------------------------------------------------------------
 //  Grand widget : 3 morceaux EN DIRECT via l'API Deezer (pochette + lien).
 //  Deux modes selon le PARAMÈTRE du widget :
@@ -77,10 +77,10 @@ grad.colors = [new Color("#1c1826"), new Color("#0e0c11")];
 w.backgroundGradient = grad;
 w.setPadding(16, 16, 16, 16);
 
-// En-tête : ◉ Sillon .......... (style unique | "3 styles")
+// En-tête : ◉ MySaphir .......... (style unique | "3 styles")
 const head = w.addStack();
 head.centerAlignContent();
-const marque = head.addText("◉ Sillon");
+const marque = head.addText("◉ MySaphir");
 marque.font = Font.heavySystemFont(17);
 marque.textColor = new Color("#ffffff");
 head.addSpacer();

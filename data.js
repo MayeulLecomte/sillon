@@ -1,5 +1,5 @@
 /* ------------------------------------------------------------------
-   Sillon — base éditoriale ("coups de cœur critiques")
+   MySaphir — base éditoriale ("coups de cœur critiques")
    ------------------------------------------------------------------
    C'est LE cœur du projet, à enrichir dans le temps.
    Chaque style regroupe des artistes de référence, mêlant
