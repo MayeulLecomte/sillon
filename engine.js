@@ -30,6 +30,73 @@ function jsonp(url, timeoutMs = 8000) {
   });
 }
 
+const DEEZER = "https://api.deezer.com";
+const JOUR = 86400000;
+
+/* ---- Nouveautés (sorties ≤ 7 jours) ------------------------------
+   Source : playlists éditoriales Deezer "new/fresh/actu" par genre.
+   On filtre sur la VRAIE date de sortie (≤ 7 j) via /album/{id}.
+   (Le jazz n'a pas de playlist nouveautés dédiée -> souvent vide.)
+------------------------------------------------------------------- */
+const NOUVEAUTES_PL = {
+  jazz: 10071848282, rock: 1306978785, hiphop: 6682665064, "rap-fr": 1071669561,
+  electro: 2143562442, chanson: 788022051, soul: 7211464104, rnb: 2021225582,
+  classique: 1500943781, folk: 1114340761, afro: 1257036831, metal: 1050179021,
+};
+
+function lireCacheBrut(cle) {
+  try { return JSON.parse(localStorage.getItem(cle) || "null"); } catch (e) { return null; }
+}
+function ecrireCacheBrut(cle, v) {
+  try { localStorage.setItem(cle, JSON.stringify({ t: Date.now(), v })); } catch (e) {}
+}
+
+export async function genererNouveautes(styleObj, opts = {}) {
+  const nb = opts.nbMorceaux ?? NB_MORCEAUX;
+  const pid = NOUVEAUTES_PL[styleObj.id];
+  if (!pid) return [];
+
+  const cle = "sillon:nouv:" + styleObj.id;
+  const cache = lireCacheBrut(cle);
+  if (cache && (Date.now() - cache.t) < 6 * 3600 * 1000) return cache.v;   // cache 6 h
+
+  let tracks = [];
+  try {
+    const data = await jsonp(`${DEEZER}/playlist/${pid}/tracks?limit=40`);
+    tracks = (data && data.data) || [];
+  } catch (e) { if (cache) return cache.v; throw e; }
+
+  // Pré-filtre bon marché : ajoutés récemment (candidats), puis vérif de la vraie date.
+  const nowSec = Date.now() / 1000;
+  const cands = tracks.filter((t) => t.time_add && (nowSec - t.time_add) <= 14 * 86400).slice(0, 25);
+
+  const out = [];
+  for (const t of cands) {
+    if (out.length >= nb) break;
+    try {
+      const det = await jsonp(`${DEEZER}/album/${t.album.id}`);
+      const rd = det && det.release_date;
+      if (!rd) continue;
+      const age = Math.floor((Date.now() - new Date(rd + "T00:00:00").getTime()) / JOUR);
+      if (age < 0 || age > 7) continue;   // strictement ≤ 7 jours
+      out.push({
+        trackId: t.id,
+        titre: t.title_short || t.title,
+        artiste: t.artist ? t.artist.name : "",
+        artisteRef: t.artist ? t.artist.name : "",
+        album: t.album ? t.album.title : "",
+        preview: t.preview,
+        pochette: t.album.cover_big,
+        lien: t.link,
+        critique: null, ere: null, nouveaute: age,
+      });
+    } catch (e) { /* on ignore ce titre */ }
+  }
+  out.sort((a, b) => a.nouveaute - b.nouveaute);   // le plus récent d'abord
+  ecrireCacheBrut(cle, out);
+  return out;
+}
+
 /* ---- Sources critiques -------------------------------------------
    RÈGLE : on n'affiche une source QUE si data.js fournit un lien
    d'article RÉEL et vérifié pour l'artiste, via le champ `critique` :
@@ -229,9 +296,11 @@ export function creerCarte(m, i, lecteur, opts = {}) {
   carte.className = "carte";
   carte.style.animationDelay = `${i * 40}ms`;
 
-  const badge = m.ere === "recent"
-    ? `<span class="badge recent">Incontournable</span>`
-    : (m.ere === "classique" ? `<span class="badge">Classique</span>` : "");
+  const badge = (m.nouveaute != null)
+    ? `<span class="badge nouveaute">Nouveauté · ${m.nouveaute === 0 ? "auj." : m.nouveaute + " j"}</span>`
+    : m.ere === "recent"
+      ? `<span class="badge recent">Incontournable</span>`
+      : (m.ere === "classique" ? `<span class="badge">Classique</span>` : "");
 
   // Uniquement les sources avec un article RÉEL et vérifié (sinon : rien affiché).
   const liensCritiques = resoudreSources(opts.sources)

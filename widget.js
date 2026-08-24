@@ -1,9 +1,9 @@
 import { STYLES } from "./data.js";
-import { genererMorceaux, creerCarte, creerLecteur } from "./engine.js";
+import { genererMorceaux, genererNouveautes, creerCarte, creerLecteur } from "./engine.js";
 
 /* ------------------------------------------------------------------
    MySaphir — widget embarquable (autonome, piloté par l'URL)
-   Paramètres : ?style=<id>&filtre=<tout|recent|classique>&n=<1..24>
+   Paramètres : ?style=<id>&filtre=<tout|recent|classique|nouveautes>&n=<1..24>
 ------------------------------------------------------------------ */
 
 const params  = new URLSearchParams(location.search);
@@ -30,19 +30,23 @@ document.title = `MySaphir — ${style.label}`;
 async function charger(essai = 0) {
   lecteur.stop();
   grille.innerHTML = "";
-  statut.textContent = essai === 0 ? "Chargement…" : "Nouvelle tentative…";
+  const estNouv = filtre === "nouveautes";
+  statut.textContent = essai === 0 ? (estNouv ? "Sorties de la semaine…" : "Chargement…") : "Nouvelle tentative…";
   statut.hidden = false;
   try {
-    // Peu d'artistes = peu de requêtes (on ménage la limite de l'API iTunes)
-    const nbArtistes = Math.max(2, Math.ceil(n / 2));
-    const morceaux = await genererMorceaux(style, filtre, { nbMorceaux: n, nbArtistes });
-    if (!morceaux.length) { statut.textContent = "Aucun extrait pour ce choix."; return; }
+    const morceaux = estNouv
+      ? await genererNouveautes(style, { nbMorceaux: n })
+      : await genererMorceaux(style, filtre, { nbMorceaux: n, nbArtistes: Math.max(2, Math.ceil(n / 2)) });
+    if (!morceaux.length) {
+      statut.textContent = estNouv ? "Aucune sortie des 7 derniers jours." : "Aucun extrait pour ce choix.";
+      return;
+    }
     statut.hidden = true;
     morceaux.forEach((m, i) => grille.appendChild(creerCarte(m, i, lecteur, { sources, ecoute })));
   } catch (e) {
     console.error(e);
     if (essai < 2) { setTimeout(() => charger(essai + 1), 1500); return; }
-    statut.textContent = "Catalogue injoignable (limite temporaire d'iTunes ?). Touchez ↻ pour réessayer.";
+    statut.textContent = "Catalogue injoignable. Touchez ↻ pour réessayer.";
   }
 }
 

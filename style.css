@@ -211,6 +211,7 @@ section { margin-top: 40px; }
   background: transparent; border: 1px solid var(--line); color: var(--pine-soft);
 }
 .badge.recent { background: var(--sage); border-color: var(--sage); color: var(--pine); }
+.badge.nouveaute { background: var(--red); border-color: var(--red); color: var(--ivory); }
 .genre { font-size: 12px; font-style: italic; color: var(--pine-soft); }
 .liens { margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
 .lien {

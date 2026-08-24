@@ -1,5 +1,5 @@
 import { STYLES } from "./data.js";
-import { genererMorceaux, creerCarte, creerLecteur, SOURCES, ECOUTES } from "./engine.js";
+import { genererMorceaux, genererNouveautes, creerCarte, creerLecteur, SOURCES, ECOUTES } from "./engine.js";
 
 /* ------------------------------------------------------------------
    MySaphir — appli principale (couche UI, s'appuie sur engine.js)
@@ -31,9 +31,10 @@ function init() {
   });
 
   [
-    { id: "tout",      label: "Tout" },
-    { id: "recent",    label: "Incontournables" },
-    { id: "classique", label: "Classiques" },
+    { id: "tout",       label: "Tout" },
+    { id: "nouveautes", label: "Nouveautés" },
+    { id: "recent",     label: "Incontournables" },
+    { id: "classique",  label: "Classiques" },
   ].forEach((f) => {
     const btn = document.createElement("button");
     btn.className = "filtre" + (f.id === "tout" ? " actif" : "");
@@ -63,27 +64,32 @@ async function genererSelection(essai = 0) {
   elTitre.textContent = `${styleActif.emoji} ${styleActif.label}`;
   elActions.hidden = false;
   elWidget.innerHTML = "";
-  elStatut.textContent = essai === 0
-    ? "MySaphir parcourt les bacs à disques…"
-    : "Le catalogue tarde à répondre… nouvelle tentative.";
+  const estNouv = filtreActif === "nouveautes";
+  elStatut.textContent = estNouv
+    ? "Recherche des sorties des 7 derniers jours…"
+    : (essai === 0 ? "MySaphir parcourt les bacs à disques…" : "Le catalogue tarde à répondre… nouvelle tentative.");
   elStatut.hidden = false;
 
   try {
-    const morceaux = await genererMorceaux(styleActif, filtreActif, { nbMorceaux: NB_MORCEAUX });
+    const morceaux = estNouv
+      ? await genererNouveautes(styleActif, { nbMorceaux: NB_MORCEAUX })
+      : await genererMorceaux(styleActif, filtreActif, { nbMorceaux: NB_MORCEAUX });
     if (morceaux.length === 0) {
-      elStatut.textContent = "Rien trouvé pour ce filtre. Essayez « Tout », ou touchez « Régénérer ».";
+      elStatut.textContent = estNouv
+        ? "Aucune sortie des 7 derniers jours pour ce style. Reviens vendredi 🎵"
+        : "Rien trouvé pour ce filtre. Essayez « Tout », ou touchez « Régénérer ».";
       return;
     }
     elStatut.hidden = true;
     morceaux.forEach((m, i) => elWidget.appendChild(creerCarte(m, i, lecteur)));
   } catch (e) {
     console.error(e);
-    // Nouvelle tentative automatique (les limites iTunes sont souvent passagères)
+    // Nouvelle tentative automatique (accrocs réseau souvent passagers)
     if (essai < 2) {
       setTimeout(() => genererSelection(essai + 1), 1500);
       return;
     }
-    elStatut.textContent = "Catalogue injoignable (peut-être une limite temporaire d'iTunes). Réessayez dans une minute.";
+    elStatut.textContent = "Catalogue injoignable pour le moment. Réessayez dans un instant.";
   }
 }
 
