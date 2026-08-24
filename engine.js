@@ -116,6 +116,7 @@ export const SOURCES = [
   { id: "nme",          label: "NME" },
   { id: "pitchfork",    label: "Pitchfork" },
   { id: "guardian",     label: "The Guardian" },
+  { id: "inrocks",      label: "Les Inrockuptibles" },
 ];
 
 // URL de l'article VÉRIFIÉ pour cette source, ou null si non renseigné.
