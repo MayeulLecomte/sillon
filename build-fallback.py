@@ -20,6 +20,7 @@ SEEDS = {
     "classique": ["Claude Debussy", "Max Richter", "Erik Satie"],
     "folk":      ["Bob Dylan", "Fleet Foxes", "Nick Drake"],
     "afro":      ["Fela Kuti", "Amadou & Mariam", "Tinariwen"],
+    "reggae":    ["Bob Marley & The Wailers", "Toots & The Maytals", "Chronixx"],
     "metal":     ["Tool", "Gojira", "Mogwai"],
 }
 

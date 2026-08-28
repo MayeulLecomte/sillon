@@ -21,16 +21,18 @@ const STYLES = {
   classique: ["Claude Debussy","Erik Satie","Ludovico Einaudi","Max Richter","Nils Frahm","Hania Rani"],
   folk:      ["Bob Dylan","Leonard Cohen","Joni Mitchell","Fleet Foxes","Bon Iver","Phoebe Bridgers"],
   afro:      ["Fela Kuti","Ali Farka Touré","Tinariwen","Burna Boy","Angélique Kidjo","Ibrahim Maalouf"],
+  reggae:    ["Bob Marley & The Wailers","Peter Tosh","Burning Spear","Toots & The Maytals","Chronixx","Protoje","Alborosie"],
   metal:     ["Black Sabbath","Tool","Mogwai","Gojira","Deafheaven","Explosions in the Sky"],
 };
 const LABELS = {
   jazz:"Jazz", rock:"Rock", hiphop:"Hip-Hop", "rap-fr":"Rap FR", electro:"Électro",
   chanson:"Chanson FR", soul:"Soul / Funk", rnb:"R&B", classique:"Classique",
-  folk:"Folk", afro:"Afro / World", metal:"Métal",
+  folk:"Folk", afro:"Afro / World", reggae:"Reggae / Dub", metal:"Métal",
 };
 const EMOJIS = {
   jazz:"🎷", rock:"🎸", hiphop:"🎤", "rap-fr":"🇫🇷", electro:"🎛️", chanson:"🎙️",
-  soul:"🕺", rnb:"💫", classique:"🎻", folk:"🪕", afro:"🌍", metal:"🤘",
+  soul:"🕺", rnb:"💫", classique:"🎻", folk:"🪕", afro:"🌍",
+  reggae:"🇯🇲", metal:"🤘",
 };
 
 const rnd = (a) => a[Math.floor(Math.random() * a.length)];

@@ -102,7 +102,7 @@ sources** (2 max) et les **plateformes d'écoute** avant de copier le code. Exem
 > Voir `exemple-integration.html` pour un aperçu du rendu.
 
 Ids de style disponibles : `jazz`, `rock`, `hiphop`, `rap-fr`, `electro`, `chanson`,
-`soul`, `rnb`, `classique`, `folk`, `afro`, `metal`.
+`soul`, `rnb`, `classique`, `folk`, `afro`, `reggae`, `metal`.
 
 ---
 
@@ -124,8 +124,8 @@ Ids de style disponibles : `jazz`, `rock`, `hiphop`, `rap-fr`, `electro`, `chans
 Il ne passe pas par `data.js` : il lit les **playlists éditoriales Deezer** dédiées à
 chaque genre, puis vérifie la **date de sortie réelle** de chaque album (`/album/{id}`)
 et ne garde que les sorties **de 7 jours ou moins**, les plus récentes d'abord.
-Résultat mis en cache 6 h. Certains styles (le jazz notamment) n'ont pas de playlist
-nouveautés bien alimentée : l'onglet peut donc être vide — c'est normal.
+Résultat mis en cache 6 h. Certains styles (jazz et reggae notamment) ont une playlist
+nouveautés peu rafraîchie : l'onglet peut donc être vide — c'est normal.
 
 ### 🛟 Robustesse
 

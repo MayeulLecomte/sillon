@@ -36,12 +36,13 @@ const JOUR = 86400000;
 /* ---- Nouveautés (sorties ≤ 7 jours) ------------------------------
    Source : playlists éditoriales Deezer "new/fresh/actu" par genre.
    On filtre sur la VRAIE date de sortie (≤ 7 j) via /album/{id}.
-   (Le jazz n'a pas de playlist nouveautés dédiée -> souvent vide.)
+   (Jazz et reggae ont des playlists peu rafraîchies -> souvent vides.)
 ------------------------------------------------------------------- */
 const NOUVEAUTES_PL = {
   jazz: 10071848282, rock: 1306978785, hiphop: 6682665064, "rap-fr": 1071669561,
   electro: 2143562442, chanson: 788022051, soul: 7211464104, rnb: 2021225582,
-  classique: 1500943781, folk: 1114340761, afro: 1257036831, metal: 1050179021,
+  classique: 1500943781, folk: 1114340761, afro: 1257036831, reggae: 2042023484,
+  metal: 1050179021,
 };
 
 function lireCacheBrut(cle) {

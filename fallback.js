@@ -815,6 +815,80 @@ export const FALLBACK = {
    "lien": "https://music.apple.com/fr/album/water-no-get-enemy/1783205871?i=1783205879&uo=4"
   }
  ],
+ "reggae": [
+  {
+   "trackId": 6776371724,
+   "titre": "I Shot The Sheriff (Live At The Hammersmith Odeon, London, UK - June, 1976)",
+   "artiste": "Bob Marley & The Wailers",
+   "artisteRef": "Bob Marley & The Wailers",
+   "album": "Roots, Rock, Reggae (Live At The Hammersmith Odeon, London, UK - June 1976)",
+   "genre": "Reggae",
+   "annee": "2026",
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2b/f4/5b/2bf45b57-ab76-7d76-e957-f9aea4b385d1/mzaf_1524714313112798748.plus.aac.p.m4a",
+   "pochette": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/b4/9a/93b49a0d-12c2-1dda-a1ab-9b9511021dc0/26UMGIM69829.rgb.jpg/300x300bb.jpg",
+   "lien": "https://music.apple.com/fr/album/i-shot-the-sheriff-live-at-the-hammersmith-odeon/6776371718?i=6776371724&uo=4"
+  },
+  {
+   "trackId": 6776371720,
+   "titre": "Trenchtown Rock (Live At The Hammersmith Odeon, London, UK - June, 1976)",
+   "artiste": "Bob Marley & The Wailers",
+   "artisteRef": "Bob Marley & The Wailers",
+   "album": "Roots, Rock, Reggae (Live At The Hammersmith Odeon, London, UK - June 1976)",
+   "genre": "Reggae",
+   "annee": "2026",
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2a/d6/44/2ad6449e-f749-7852-352d-d7a095587e47/mzaf_4958561611666186594.plus.aac.p.m4a",
+   "pochette": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/b4/9a/93b49a0d-12c2-1dda-a1ab-9b9511021dc0/26UMGIM69829.rgb.jpg/300x300bb.jpg",
+   "lien": "https://music.apple.com/fr/album/trenchtown-rock-live-at-the-hammersmith-odeon-london/6776371718?i=6776371720&uo=4"
+  },
+  {
+   "trackId": 6776371721,
+   "titre": "Burnin' And Lootin' (Live At The Hammersmith Odeon, London, UK - June, 1976)",
+   "artiste": "Bob Marley & The Wailers",
+   "artisteRef": "Bob Marley & The Wailers",
+   "album": "Roots, Rock, Reggae (Live At The Hammersmith Odeon, London, UK - June 1976)",
+   "genre": "Reggae",
+   "annee": "2026",
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/cf/01/db/cf01dbff-f0b6-b1b7-4ed1-c2161f353bab/mzaf_11120154242740781739.plus.aac.p.m4a",
+   "pochette": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/b4/9a/93b49a0d-12c2-1dda-a1ab-9b9511021dc0/26UMGIM69829.rgb.jpg/300x300bb.jpg",
+   "lien": "https://music.apple.com/fr/album/burnin-and-lootin-live-at-the-hammersmith-odeon-london/6776371718?i=6776371721&uo=4"
+  },
+  {
+   "trackId": 6776371723,
+   "titre": "Rebel Music (3 O'clock Roadblock) [Live At The Hammersmith Odeon, London, UK - June, 1976]",
+   "artiste": "Bob Marley & The Wailers",
+   "artisteRef": "Bob Marley & The Wailers",
+   "album": "Roots, Rock, Reggae (Live At The Hammersmith Odeon, London, UK - June 1976)",
+   "genre": "Reggae",
+   "annee": "2026",
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/48/af/ac/48afac2a-3332-cfd9-74ae-81f07059ab3f/mzaf_16097905185916684051.plus.aac.p.m4a",
+   "pochette": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/b4/9a/93b49a0d-12c2-1dda-a1ab-9b9511021dc0/26UMGIM69829.rgb.jpg/300x300bb.jpg",
+   "lien": "https://music.apple.com/fr/album/rebel-music-3-oclock-roadblock-live-at-the/6776371718?i=6776371723&uo=4"
+  },
+  {
+   "trackId": 6776371726,
+   "titre": "Bend Down Low (Live At The Hammersmith Odeon, London, UK - June, 1976)",
+   "artiste": "Bob Marley & The Wailers",
+   "artisteRef": "Bob Marley & The Wailers",
+   "album": "Roots, Rock, Reggae (Live At The Hammersmith Odeon, London, UK - June 1976)",
+   "genre": "Reggae",
+   "annee": "2026",
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8f/cf/93/8fcf936a-f382-f80a-5fe5-d20037bebc83/mzaf_13271409197887860384.plus.aac.p.m4a",
+   "pochette": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/b4/9a/93b49a0d-12c2-1dda-a1ab-9b9511021dc0/26UMGIM69829.rgb.jpg/300x300bb.jpg",
+   "lien": "https://music.apple.com/fr/album/bend-down-low-live-at-the-hammersmith-odeon-london-uk/6776371718?i=6776371726&uo=4"
+  },
+  {
+   "trackId": 6776371729,
+   "titre": "Lively Up Yourself (Live At The Hammersmith Odeon, London, UK - June, 1976)",
+   "artiste": "Bob Marley & The Wailers",
+   "artisteRef": "Bob Marley & The Wailers",
+   "album": "Roots, Rock, Reggae (Live At The Hammersmith Odeon, London, UK - June 1976)",
+   "genre": "Reggae",
+   "annee": "2026",
+   "preview": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/80/00/d4/8000d43a-afe1-efb1-b359-c30e4ddc3a6f/mzaf_3193456670723733350.plus.aac.p.m4a",
+   "pochette": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/93/b4/9a/93b49a0d-12c2-1dda-a1ab-9b9511021dc0/26UMGIM69829.rgb.jpg/300x300bb.jpg",
+   "lien": "https://music.apple.com/fr/album/lively-up-yourself-live-at-the-hammersmith-odeon/6776371718?i=6776371729&uo=4"
+  }
+ ],
  "metal": [
   {
    "trackId": 1475686700,
