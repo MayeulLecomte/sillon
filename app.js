@@ -1,5 +1,6 @@
 import { STYLES } from "./data.js";
-import { genererMorceaux, genererNouveautes, creerCarte, creerLecteur, SOURCES, ECOUTES } from "./engine.js";
+import { genererMorceaux, genererNouveautes, creerCarte, creerLecteur, rafraichirMorceau, SOURCES, ECOUTES } from "./engine.js";
+import { lireFavoris, estFavori, basculerFavori } from "./favoris.js";
 
 /* ------------------------------------------------------------------
    MySaphir — appli principale (couche UI, s'appuie sur engine.js)
@@ -21,6 +22,22 @@ const elWidget  = $("#widget");
 const elTitre   = $("#widget-titre");
 const elActions = $("#widget-actions");
 const elStatut  = $("#statut");
+const elBtnFav  = $("#voir-favoris");
+const elNbFav   = $("#nb-favoris");
+
+let vueFavoris = false;
+const FAVORI = {
+  est: estFavori,
+  basculer(m) {
+    const actif = basculerFavori(m);
+    majCompteurFavoris();
+    return actif;
+  },
+};
+
+function majCompteurFavoris() {
+  elNbFav.textContent = lireFavoris().length;
+}
 
 // ---- Initialisation ----------------------------------------------
 function init() {
@@ -54,6 +71,8 @@ function init() {
 }
 
 function choisirStyle(id) {
+  vueFavoris = false;
+  elBtnFav.classList.remove("actif");
   styleActif = STYLES.find((s) => s.id === id);
   document.querySelectorAll(".chip").forEach((b) =>
     b.classList.toggle("actif", b.dataset.id === id));
@@ -84,7 +103,7 @@ async function genererSelection(essai = 0) {
       return;
     }
     elStatut.hidden = true;
-    morceaux.forEach((m, i) => elWidget.appendChild(creerCarte(m, i, lecteur)));
+    morceaux.forEach((m, i) => elWidget.appendChild(creerCarte(m, i, lecteur, { favori: FAVORI })));
   } catch (e) {
     console.error(e);
     // Nouvelle tentative automatique (accrocs réseau souvent passagers)
@@ -95,6 +114,35 @@ async function genererSelection(essai = 0) {
     elStatut.textContent = "Catalogue injoignable pour le moment. Réessayez dans un instant.";
   }
 }
+
+// ---- Favoris ------------------------------------------------------
+async function afficherFavoris() {
+  lecteur.stop();
+  vueFavoris = true;
+  styleActif = null;
+  document.querySelectorAll(".chip").forEach((b) => b.classList.toggle("actif", b === elBtnFav));
+  elFiltres.hidden = true;
+  elActions.hidden = true;
+  elTitre.textContent = "♥ Mes favoris";
+  elWidget.innerHTML = "";
+  $(".resultats").scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const favoris = lireFavoris();
+  if (favoris.length === 0) {
+    elStatut.textContent = "Aucun favori pour l'instant. Touchez ♡ sur un morceau pour le retrouver ici.";
+    elStatut.hidden = false;
+    return;
+  }
+  elStatut.textContent = "Chargement de vos favoris…";
+  elStatut.hidden = false;
+  // Les extraits Deezer expirent : on récupère des URL fraîches (sinon on garde l'ancienne).
+  const frais = await Promise.all(favoris.map(rafraichirMorceau));
+  if (!vueFavoris) return;   // l'utilisateur a choisi un style entre-temps
+  elStatut.hidden = true;
+  frais.forEach((m, i) => elWidget.appendChild(creerCarte(m, i, lecteur, { favori: FAVORI })));
+}
+
+elBtnFav.addEventListener("click", afficherFavoris);
 
 // ---- Actions ------------------------------------------------------
 $("#regenerer").addEventListener("click", () => { if (styleActif) genererSelection(); });
@@ -183,3 +231,4 @@ document.getElementById("embed-fermer").addEventListener("click", () =>
 
 init();
 initSourcesEmbed();
+majCompteurFavoris();

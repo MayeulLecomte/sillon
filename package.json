@@ -4,7 +4,7 @@
   "private": true,
   "description": "MySaphir — app iOS (Capacitor) autour de l'appli web Sillon",
   "scripts": {
-    "build": "rm -rf www && mkdir -p www && cp index.html style.css app.js engine.js data.js fallback.js manifest.webmanifest apple-touch-icon.png icon-192.png icon-512.png www/",
+    "build": "rm -rf www && mkdir -p www && cp index.html style.css app.js engine.js favoris.js data.js fallback.js manifest.webmanifest apple-touch-icon.png icon-192.png icon-512.png www/",
     "ios": "npm run build && npx cap sync ios && npx cap open ios"
   },
   "dependencies": {

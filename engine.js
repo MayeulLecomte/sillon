@@ -327,6 +327,7 @@ export function creerCarte(m, i, lecteur, opts = {}) {
   carte.innerHTML = `
     <div class="pochette">
       <img src="${m.pochette}" alt="Pochette de ${escapeHtml(m.album || m.titre)}" loading="lazy">
+      ${opts.favori ? `<button class="coeur" aria-label="Ajouter aux favoris" aria-pressed="false">♡</button>` : ""}
       <button class="play" aria-label="Écouter un extrait">
         <span class="ico-play">▶</span>
         <span class="egaliseur"><i></i><i></i><i></i><i></i></span>
@@ -347,7 +348,30 @@ export function creerCarte(m, i, lecteur, opts = {}) {
   `;
 
   carte.querySelector(".play").addEventListener("click", () => lecteur.basculer(m, carte));
+
+  const coeur = carte.querySelector(".coeur");
+  if (coeur) {
+    const maj = (actif) => {
+      coeur.textContent = actif ? "♥" : "♡";
+      coeur.classList.toggle("actif", actif);
+      coeur.setAttribute("aria-pressed", String(actif));
+      coeur.setAttribute("aria-label", actif ? "Retirer des favoris" : "Ajouter aux favoris");
+    };
+    maj(opts.favori.est(m));
+    coeur.addEventListener("click", () => maj(opts.favori.basculer(m)));
+  }
   return carte;
+}
+
+/* ---- Rafraîchit extrait + pochette d'un morceau gardé (les URL d'extraits Deezer expirent) */
+export async function rafraichirMorceau(m) {
+  try {
+    const t = await jsonp(`${DEEZER}/track/${m.trackId}`);
+    if (!t || t.error) return m;
+    return { ...m, preview: t.preview || m.preview, pochette: (t.album && t.album.cover_big) || m.pochette };
+  } catch (e) {
+    return m;
+  }
 }
 
 /* ---- Utilitaires -------------------------------------------------- */
