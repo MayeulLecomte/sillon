@@ -307,7 +307,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
 				DEVELOPMENT_TEAM = S7QLNXH9P2;
 				PRODUCT_BUNDLE_IDENTIFIER = fr.mayeullecomte.mysaphir;
@@ -330,7 +330,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				DEVELOPMENT_TEAM = S7QLNXH9P2;
 				PRODUCT_BUNDLE_IDENTIFIER = fr.mayeullecomte.mysaphir;
 				PRODUCT_NAME = "$(TARGET_NAME)";
