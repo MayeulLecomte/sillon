@@ -1,0 +1,10 @@
+{
+  "appId": "fr.mayeullecomte.mysaphir",
+  "appName": "MySaphir",
+  "webDir": "www",
+  "backgroundColor": "#F2EEE4",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#F2EEE4"
+  }
+}

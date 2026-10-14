@@ -1,2 +1,5 @@
 .DS_Store
 .claude-launch-note.txt
+node_modules/
+www/
+ios/App/App/public/
