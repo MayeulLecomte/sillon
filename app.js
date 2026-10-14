@@ -7,6 +7,9 @@ import { genererMorceaux, genererNouveautes, creerCarte, creerLecteur, SOURCES, 
 
 const NB_MORCEAUX = 12;
 
+// Dans l'app iOS (Capacitor), le bouton « Intégrer » (code iframe pour un site) n'a pas de sens.
+if (window.Capacitor?.isNativePlatform?.()) document.getElementById("integrer").style.display = "none";
+
 let styleActif = null;
 let filtreActif = "tout";
 const lecteur = creerLecteur();

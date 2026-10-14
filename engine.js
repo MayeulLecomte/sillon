@@ -196,8 +196,15 @@ async function chercherArtiste(nom, styleObj) {
 
   // 2) Sinon on interroge Deezer (JSONP)…
   try {
-    const q = encodeURIComponent(`artist:"${nom}"`);
-    const data = await jsonp(`${API}?q=${q}&limit=25`);
+    // La recherche avancée `artist:"…"` de Deezer ne renvoie plus presque rien :
+    // on résout l'artiste, puis on prend ses titres les plus écoutés (/artist/{id}/top).
+    const q = encodeURIComponent(nom);
+    const res = await jsonp(`${API}/artist?q=${q}&limit=5`);
+    const candidats = (res && res.data) || [];
+    const artiste = candidats.find((a) => a.name.toLowerCase() === nom.toLowerCase()) || candidats[0];
+    const data = artiste
+      ? await jsonp(`${DEEZER}/artist/${artiste.id}/top?limit=25`)
+      : await jsonp(`${API}?q=${q}&limit=25`);
     let morceaux = transformer(data);
     // Privilégie les morceaux réellement de l'artiste demandé (évite les faux positifs)
     const n2 = nom.toLowerCase();

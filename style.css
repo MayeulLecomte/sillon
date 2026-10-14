@@ -269,3 +269,9 @@ body.embed {
 }
 .embed-marque:hover { color: var(--red); border-color: var(--red); }
 .embed-grille { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+
+/* Bandeau opaque sous la barre d'état iOS (app installée / Capacitor) */
+body::after {
+  content: ""; position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  height: env(safe-area-inset-top); background: var(--ivory); pointer-events: none;
+}
