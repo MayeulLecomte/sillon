@@ -46,13 +46,9 @@ main, .entete, .pied { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
 /* ---------- En-tête ---------- */
 .entete { padding-top: calc(46px + env(safe-area-inset-top)); padding-bottom: 22px; border-bottom: 1px solid var(--line); }
 .marque { display: flex; align-items: center; gap: 16px; }
-.disque {
-  width: 44px; height: 44px; border-radius: 50%; flex: none; position: relative;
-  background: var(--paper); border: 2px solid var(--pine);
-}
-.disque::after {
-  content: ""; position: absolute; inset: 0; margin: auto;
-  width: 9px; height: 9px; border-radius: 50%; background: var(--red);
+.logo {
+  width: 44px; height: 44px; border-radius: 11px; flex: none;
+  box-shadow: 0 2px 8px rgba(20, 30, 60, .25);
 }
 
 h1 {
